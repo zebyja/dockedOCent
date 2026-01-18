@@ -5,6 +5,7 @@ function opencode(){
   FEATURE_NAME=""
   REPO_MOUNT="-v $(pwd):/app"
   NAME=""
+  CONFIG_MOUNT=""
 
   while [[ $# -gt 0 ]]; do
     case $1 in
@@ -19,6 +20,10 @@ function opencode(){
         ;;
       -m|--git-master)
         GIT_MASTER=true
+        shift # past argument
+        ;;
+      -c|--config)
+        CONFIG_MOUNT="-v $2:/root/.config/opencode/opencode.json:ro"
         shift # past argument
         ;;
       -f|--feature)
@@ -64,6 +69,8 @@ function opencode(){
     $DOCKER_SOCKET_MOUNT \
     $REPO_MOUNT \
     $GIT_MOUNT \
+    -v opencode:/root/.config/opencode:ro \
+    $CONFIG_MOUNT \
     "$IMAGE"
   )
   return 0
