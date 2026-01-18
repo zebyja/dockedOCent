@@ -1,0 +1,27 @@
+
+#this opencode variation purpose is to run opencode agent, allow him git and docker client
+
+FROM ghcr.io/anomalyco/opencode
+# dockerfile of above: https://github.com/anomalyco/opencode/blob/dev/packages/opencode/Dockerfile
+
+RUN apk update && \
+    apk add --no-cache \
+    # Add development and debugging tools:
+    bash \
+    git \
+    build-base \
+    curl \
+    python3 \
+    py3-pip \
+    py3-virtualenv \
+    # Add Docker client for host communication:
+    docker-cli \
+    docker-cli-compose
+
+# Create and activate Python virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /app
+
+COPY . /app
