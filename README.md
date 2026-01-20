@@ -3,6 +3,7 @@ DOCKerizED Open Code agENT workflow framework. The main goal is to make agents i
 ## install
 ```
 make build
+make gen-env
 ```
 
 optional(recommand add it into your ~/.bashrc):
@@ -39,7 +40,7 @@ The main benefit of this is that you can work in parallel.
 5. instead of waiting start new task
 
 ## todos:
-- parallelization: by passing current code into docker without binding there can be more then one agents works on one project. (paralel features making)
+- fix: run opencode under user privileges, not root.
 - initiators: you can choose what scripts are run before opencode starts.
 - verifies: you can choose what scripts are run when opencode ends.
 - git restrictions: You can choose what agent can do with git

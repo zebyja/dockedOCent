@@ -4,6 +4,7 @@
     "edit": "allow",
     "webfetch": "allow",
     "read": "allow",
+    "ls": "allow",
     "grep": "allow",
     "glob": "allow",
     "list": "allow",

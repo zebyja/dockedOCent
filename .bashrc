@@ -1,3 +1,10 @@
+  # Source environment variables to get OPENCODE_REPO_PATH
+  SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+  if [ -f "$SCRIPT_DIR/.env" ]; then
+    echo "sourcing $SCRIPT_DIR/.env"
+    source "$SCRIPT_DIR/.env"
+  fi
+
 function opencode(){
   IMAGE="opencode"
   SUPERVISOR=false
@@ -6,7 +13,6 @@ function opencode(){
   REPO_MOUNT="-v $(pwd):/app"
   NAME=""
   CONFIG_MOUNT=""
-
   while [[ $# -gt 0 ]]; do
     case $1 in
       -i|--image)
@@ -23,7 +29,7 @@ function opencode(){
         shift # past argument
         ;;
       -c|--config)
-        CONFIG_MOUNT="-v $2:/root/.config/opencode/opencode.json:ro"
+        CONFIG_MOUNT="-v $2:/root/.config/opencode/opencode.json"
         shift # past argument
         ;;
       -f|--feature)
@@ -65,11 +71,13 @@ function opencode(){
     docker run \
     -ti \
     --rm \
+    -e OPENCODE_CONFIG=/app/.dockerdocent/opencode.json \
+    -e OPENCODE_CONFIG_DIR=/app/.dockerdocent \
     $NAME \
     $DOCKER_SOCKET_MOUNT \
     $REPO_MOUNT \
     $GIT_MOUNT \
-    -v opencode:/root/.config/opencode:ro \
+    -v $OPENCODE_REPO_PATH/opencode:/app/.dockerdocent \
     $CONFIG_MOUNT \
     "$IMAGE"
   )
